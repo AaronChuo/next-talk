@@ -1,0 +1,3 @@
+{
+  "/conversations/:id/messages/create": "/messages"
+}
