@@ -5,6 +5,7 @@ import {
   INTERVAL_MS_MESSAGES,
   INTERVAL_MS_NONE,
   ERROR_SEND_MESSAGE,
+  ERROR_UPDATE_REACTION,
 } from '@/constants';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -52,6 +53,20 @@ export const sendMessage = async (conversationId, messageData, mutate) => {
 
   if (!response.ok) {
     throw new Error(ERROR_SEND_MESSAGE);
+  }
+
+  mutate();
+};
+
+export const updateReactions = async (messageId, updatedData, mutate) => {
+  const response = await fetch(`${API_URL}/messages/${messageId}/reactions`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updatedData),
+  });
+
+  if (!response.ok) {
+    throw new Error(ERROR_UPDATE_REACTION);
   }
 
   mutate();
