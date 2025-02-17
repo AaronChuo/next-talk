@@ -1,5 +1,5 @@
 import { memo, useState, useCallback } from 'react';
-import Image from 'next/image';
+import LazyImage from '@/components/LazyImage';
 import MessageReactions from '@/components/MessageReactions';
 import { localizeTimeString } from '@/utils/datetime';
 import {
@@ -32,7 +32,7 @@ const MessageItem = memo(({ msg }) => {
         ${messageBubbleClass}
       `}
     >
-      <Image
+      <LazyImage
         src={msg.avatar || ''}
         alt={msg.user}
         width={60}
@@ -49,7 +49,7 @@ const MessageItem = memo(({ msg }) => {
         {msg.messageType === MESSAGE_TYPE_TEXT && <p className="text-sm text-gray-600">{msg.message}</p>}
         {msg.messageType === MESSAGE_TYPE_SYSTEM && <p className="text-sm text-teal-600">{msg.message}</p>}
         {msg.messageType === MESSAGE_TYPE_IMAGE && (
-          <Image
+          <LazyImage
             src={msg.message || ''}
             alt="sent image"
             width={200}
