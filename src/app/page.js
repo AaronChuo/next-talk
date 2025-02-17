@@ -1,32 +1,67 @@
 'use client';
 
-import { useConversations } from "../lib/useChatApi";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
+import { memo, useCallback } from 'react';
+import { useConversations } from '@/lib/useChatApi';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { localizeTimeString } from '@/utils/datetime';
+import Loading from '@/components/Loading';
+import Error from '@/components/Error';
 
-export default function Home() {
+const Home = memo(() => {
   const { conversations, isLoading, isError } = useConversations();
   const router = useRouter();
 
-  if (isLoading) return <p>載入中...</p>;
-  if (isError) return <p>載入失敗</p>;
+  const handleClickConversation = useCallback((event) => {
+    const id = event.currentTarget.getAttribute('data-conversation-id');
+    router.push(`/chat/${id}`);
+  });
+
+  if (isLoading) return <Loading />;
+  if (isError) return <Error />;
 
   return (
     <div className="p-4 max-w-lg mx-auto">
       <h1 className="text-2xl font-bold mb-4">對話列表</h1>
-      {conversations.map((conv) => (
-        <div
-          key={conv.id}
-          className="flex items-center p-3 bg-gray-100 rounded-lg mb-2 cursor-pointer hover:bg-gray-200"
-          onClick={() => router.push(`/chat/${conv.id}`)}
-        >
-          <Image src={conv.participants[1].avatar} alt={conv.participants[1].user} width={40} height={40} className="rounded-full" />
-          <div className="ml-3">
-            <p className="font-semibold">{conv.participants[1].user}</p>
-            <p className="text-sm text-gray-600">{conv.lastMessage}</p>
+      {conversations.map((conv) => {
+        const { id, participants, lastMessage, timestamp } = conv;
+        const participant = participants[1];
+        return (
+          <div
+            key={id}
+            data-conversation-id={id}
+            onClick={handleClickConversation}
+            className={`
+              flex items-center h-[60px] p-1 mb-5 bg-gray-100
+              rounded-full cursor-pointer hover:bg-gray-200
+            `}
+          >
+            <Image
+              src={participant.avatar}
+              alt={participant.user}
+              width={60}
+              height={60}
+              className="rounded-full"
+            />
+            <div className="ml-3">
+              <p className="font-semibold text-gray-700">
+                {participant.user}
+                <span className="text-xs text-gray-400 ml-2">
+                  {localizeTimeString(timestamp)}
+                </span>
+              </p>
+              <p
+                className="text-sm text-gray-600 truncate"
+                aria-live="polite"
+              >
+                {lastMessage}
+              </p>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
-}
+});
+
+export default Home;
