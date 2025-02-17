@@ -14,12 +14,11 @@ NextTalk 是一個 **多人即時聊天室**，使用 **Next.js + SWR + json-ser
 ---
 
 ## 📦 技術採用
-- **Next.js** 13+ (多項相關功能)
-- **React Hooks (使用 useContext + useReducer)**
-- **SWR (數據快取 & 自動更新)**
+- **Next.js**
+- **React Hooks**
+- **SWR**
 - **json-server (模擬 API)**
 - **Tailwind CSS (使用在 UI 樣式設計上)**
-- **GitHub Actions (自動部署與 CI/CD)**
 
 ---
 
@@ -54,6 +53,7 @@ npm run dev
 GET /conversations
 GET /messages
 POST /conversations/:id/messages/create
+PATCH /messages/:id/reactions
 ```
 ---
 
@@ -64,9 +64,13 @@ NextTalk/
  │   ├── chat/[id]/page.js  # 聊天室頁面
  │   ├── page.js            # 首頁（對話列表）
  ├── components/            # 可重用組件
- │   ├── ConversationList.js
- │   ├── ChatRoom.js
+ │   ├── ChatHeader.js
+ │   ├── LazyImage.js
+ │   ├── Loading.js
+ │   ├── Error.js
  │   ├── MessageInput.js
+ │   ├── MessageItem.js
+ │   ├── MessageReactions.js
  ├── lib/                   # SWR API hooks
  │   ├── useChatApi.js
  ├── mock/                  # json-server 假數據
@@ -80,17 +84,5 @@ NextTalk/
 ```
 ---
 
-## 🎯 未來計畫
-✅ **支援 WebSocket 進行即時更新**  
-✅ **加入使用者身份驗證 (OAuth、JWT)**  
-✅ **部署到 Vercel & Render**
-
----
-
-## 🎉 貢獻方式
-歡迎提交 **Issue** 或 **Pull Request**！🚀  
-📁 **Repo**: [NextTalk on GitHub](https://github.com/AaronChuo/NextTalk)
-
----
 **© 2024 NextTalk - A Real-time Chat App 🚀**
 
