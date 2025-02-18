@@ -36,7 +36,11 @@ const ChatRoom = ({ params }) => {
         ))}
         <div ref={messagesEndRef} />
       </div>
-      <div className="sticky bottom-0 bg-white z-10 p-4 shadow-md">
+      <div className={`
+        sticky bottom-0 z-10 p-4 shadow-md backdrop-blur-sm
+        bg-gradient-to-t from-background to-white/70 dark:to-black/70
+        dark:border-gray-700 dark:border-t-[1px]
+      `}>
         <MessageInput conversationId={id} mutate={mutate} />
       </div>
     </div>

@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { localizeTimeString } from '@/utils/datetime';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
+import ThemeToggle from '@/components/ThemeToggle';
 
 const Home = memo(() => {
   const { conversations, isLoading, isError } = useConversations();
@@ -22,7 +23,10 @@ const Home = memo(() => {
 
   return (
     <div className="p-4 max-w-lg mx-auto">
-      <h1 className="text-2xl font-bold mb-4">對話列表</h1>
+      <h1 className="text-2xl font-bold mb-4 flex justify-between">
+        對話列表
+        <ThemeToggle />
+      </h1>
       {conversations.map((conv) => {
         const { id, participants, lastMessage, timestamp } = conv;
         const participant = participants[1];
@@ -34,6 +38,7 @@ const Home = memo(() => {
             className={`
               flex items-center h-[60px] p-1 mb-5 bg-gray-100
               rounded-full cursor-pointer hover:bg-gray-200
+              dark:bg-gray-900 dark:hover:bg-gray-800
             `}
           >
             <Image
@@ -44,14 +49,14 @@ const Home = memo(() => {
               className="rounded-full"
             />
             <div className="ml-3">
-              <p className="font-semibold text-gray-700">
+              <p className="font-semibold text-gray-700 dark:text-gray-200">
                 {participant.user}
-                <span className="text-xs text-gray-400 ml-2">
+                <span className="text-xs ml-2 text-gray-400 dark:text-gray-600">
                   {localizeTimeString(timestamp)}
                 </span>
               </p>
               <p
-                className="text-sm text-gray-600 truncate"
+                className="text-sm text-gray-600 truncate dark:text-gray-400"
                 aria-live="polite"
               >
                 {lastMessage}

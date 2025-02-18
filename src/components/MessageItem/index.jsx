@@ -17,8 +17,8 @@ const MessageItem = memo(({ msg }) => {
 
   const isSelf = msg.userId === CURRENT_USER_ID;
   const messageBubbleClass = isSelf
-    ? 'before:right-16 before:border-l-8 before:border-l-gray-100 flex-row-reverse'
-    : 'before:left-16 before:border-r-8 before:border-r-gray-100';
+    ? 'before:right-16 before:border-l-8 before:border-l-gray-100 flex-row-reverse dark:before:border-l-gray-900'
+    : 'before:left-16 before:border-r-8 before:border-r-gray-100 dark:before:border-r-gray-900';
 
   return (
     <div
@@ -43,12 +43,16 @@ const MessageItem = memo(({ msg }) => {
       <div
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
-        className="bg-gray-100 p-2 ml-3 mr-3 rounded-lg"
+        className="bg-gray-100 p-2 ml-3 mr-3 rounded-lg dark:bg-gray-900"
       >
-        <p className="font-semibold text-gray-700">{msg.user}</p>
-        {msg.messageType === MESSAGE_TYPE_TEXT && <p className="text-sm text-gray-600">{msg.message}</p>}
-        {msg.messageType === MESSAGE_TYPE_SYSTEM && <p className="text-sm text-teal-600">{msg.message}</p>}
-        {msg.messageType === MESSAGE_TYPE_IMAGE && (
+        <p className="font-semibold text-gray-700 dark:text-gray-200">{msg.user}</p>
+        {msg.messageType === MESSAGE_TYPE_TEXT &&
+          <p className="text-sm text-gray-600 dark:text-gray-300">{msg.message}</p>
+        }
+        {msg.messageType === MESSAGE_TYPE_SYSTEM &&
+          <p className="text-sm text-teal-600 dark:text-gray-300">{msg.message}</p>
+        }
+        {msg.messageType === MESSAGE_TYPE_IMAGE &&
           <LazyImage
             src={msg.message || ''}
             alt="sent image"
@@ -56,8 +60,8 @@ const MessageItem = memo(({ msg }) => {
             height={150}
             unoptimized
           />
-        )}
-        <div className="flex justify-between items-center text-xs text-gray-400 mt-3">
+        }
+        <div className="flex justify-between items-center text-xs text-gray-400 mt-3 dark:text-gray-500">
           <span>{localizeTimeString(msg.timestamp)}</span>
           <MessageReactions message={msg} isHover={isHover} />
         </div>

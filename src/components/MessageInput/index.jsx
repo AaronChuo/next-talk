@@ -39,6 +39,7 @@ const MessageInput = memo(({ conversationId, mutate }) => {
           rounded-tl-lg rounded-bl-lg 
           border-[1px] border-blue-500 border-r-0 
           focus:bg-white focus:border-blue-500
+          dark:bg-background dark:focus:bg-gray-900 dark:text-gray-100
         `}
       />
       <button
