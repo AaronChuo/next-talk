@@ -1,28 +1,26 @@
 import { useState, useEffect } from 'react';
 
 const ThemeToggle = () => {
-  const [theme, setTheme] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('theme')
-        || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    }
-    return 'light';
-  });
+  const [theme, setTheme] = useState(null);
 
   useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+    const storedTheme = localStorage.getItem('theme');
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    setTheme(storedTheme || systemTheme);
+  }, []);
+
+  useEffect(() => {
+    if (theme) {
+      document.documentElement.classList.toggle('dark', theme === 'dark');
+      localStorage.setItem('theme', theme);
     }
-    localStorage.setItem('theme', theme);
   }, [theme]);
 
   return (
     <button
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
       className={`
-        text-sm p-2 rounded-md bg-background transition 
+        text-sm font-bold p-2 rounded-md bg-background transition 
         dark:bg-background dark:text-foreground
       `}
     >

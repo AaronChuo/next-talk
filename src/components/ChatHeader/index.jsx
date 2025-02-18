@@ -1,5 +1,6 @@
 import { memo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import ThemeToggle from '../ThemeToggle';
 
 const ChatHeader = memo(({ title }) => {
   const router = useRouter();
@@ -14,13 +15,14 @@ const ChatHeader = memo(({ title }) => {
       dark:border-gray-700 dark:border-b-[1px]
       bg-gradient-to-b from-background to-white/70 dark:to-black/70
     `}>
-      <div className="flex items-center mb-4">
+      <div className="flex items-center justify-between mb-4">
         <button
           onClick={handleClickBack}
           className="text-blue-500 hover:text-blue-600 flex items-center"
         >
           ⬅ Back
         </button>
+        <ThemeToggle />
       </div>
       <h1 className="text-2xl font-bold mb-4">{title}</h1>
     </div>
