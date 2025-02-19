@@ -29,7 +29,13 @@ const MessageInput = memo(({ conversationId, mutate }) => {
         console.error('發送訊息失敗', error);
       }
     }
-  });
+  }, [text, conversationId, mutate]);
+
+  const handleKeyUp = useCallback((e) => {
+    if (e.key === 'Enter') {
+      handleSend();
+    }
+  }, [handleSend]);
 
   return (
     <div className="mt-4 flex">
@@ -38,6 +44,7 @@ const MessageInput = memo(({ conversationId, mutate }) => {
         value={text}
         placeholder="Say something..."
         onChange={handleChange}
+        onKeyUp={handleKeyUp}
         className={`
           flex-1 p-2 text-gray-600 bg-gray-100 outline-none box-border
           rounded-tl-lg rounded-bl-lg 

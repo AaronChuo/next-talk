@@ -53,6 +53,27 @@ describe('MessageInput Component', () => {
     );
     expect(input).toHaveValue('');
   });
+  
+  it('calls sendMessage and clear input when type Enter key', async () => {
+    render(<MessageInput conversationId={conversationId} mutate={mockMutate} />);
+    
+    const input = screen.getByPlaceholderText('Say something...');
+
+    await userEvent.type(input, 'Hello! again');
+    await userEvent.keyboard('{Enter}');
+
+    expect(sendMessage).toHaveBeenCalledWith(
+      conversationId,
+      expect.objectContaining({
+        conversationId,
+        userId: CURRENT_USER_ID,
+        messageType: 'text',
+        message: 'Hello! again',
+      }),
+      mockMutate
+    );
+    expect(input).toHaveValue('');
+  });
 
   it('does not call sendMessage if input is empty', async () => {
     render(<MessageInput conversationId={conversationId} mutate={mockMutate} />);
