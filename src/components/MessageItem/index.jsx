@@ -1,4 +1,4 @@
-import { memo, useState, useCallback } from 'react';
+import { memo, useState, useMemo, useCallback } from 'react';
 import LazyImage from '@/components/LazyImage';
 import MessageReactions from '@/components/MessageReactions';
 import { localizeTimeString } from '@/utils/datetime';
@@ -15,10 +15,15 @@ const MessageItem = memo(({ msg }) => {
   const handleMouseOver = useCallback(() => setIsHover(true), []);
   const handleMouseOut = useCallback(() => setIsHover(false), []);
 
-  const isSelf = msg.userId === CURRENT_USER_ID;
-  const messageBubbleClass = isSelf
-    ? 'before:right-16 before:border-l-8 before:border-l-gray-100 flex-row-reverse dark:before:border-l-gray-900'
-    : 'before:left-16 before:border-r-8 before:border-r-gray-100 dark:before:border-r-gray-900';
+  const isSelf = useMemo(() => {
+    return msg.userId === CURRENT_USER_ID;
+  }, [msg.userId, CURRENT_USER_ID]);
+
+  const messageBubbleClass = useMemo(() => {
+    return isSelf
+      ? 'before:right-16 before:border-l-8 before:border-l-gray-100 flex-row-reverse dark:before:border-l-gray-900'
+      : 'before:left-16 before:border-r-8 before:border-r-gray-100 dark:before:border-r-gray-900';
+  }, [isSelf]);
 
   return (
     <div
@@ -38,7 +43,7 @@ const MessageItem = memo(({ msg }) => {
         width={60}
         height={60}
         className="rounded-full"
-        unoptimized
+        unoptimized="true"
       />
       <div
         onMouseOver={handleMouseOver}
@@ -58,7 +63,7 @@ const MessageItem = memo(({ msg }) => {
             alt="sent image"
             width={200}
             height={150}
-            unoptimized
+            unoptimized="true"
           />
         }
         <div className="flex justify-between items-center text-xs text-gray-400 mt-3 dark:text-gray-500">

@@ -3,7 +3,7 @@
 import { memo, useCallback } from 'react';
 import { useConversations } from '@/lib/useChatApi';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import LazyImage from '@/components/LazyImage';
 import { localizeTimeString } from '@/utils/datetime';
 import Loading from '@/components/Loading';
 import Error from '@/components/Error';
@@ -16,7 +16,7 @@ const Home = memo(() => {
   const handleClickConversation = useCallback((event) => {
     const id = event.currentTarget.getAttribute('data-conversation-id');
     router.push(`/chat/${id}`);
-  });
+  }, [router]);
 
   if (isLoading) return <Loading />;
   if (isError) return <Error />;
@@ -41,7 +41,7 @@ const Home = memo(() => {
               dark:bg-gray-900 dark:hover:bg-gray-800
             `}
           >
-            <Image
+            <LazyImage
               src={participant.avatar}
               alt={participant.user}
               width={60}

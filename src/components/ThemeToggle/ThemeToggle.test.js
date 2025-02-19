@@ -3,20 +3,14 @@ import userEvent from '@testing-library/user-event';
 import ThemeToggle from '@/components/ThemeToggle';
 
 describe('ThemeToggle component', () => {
-  beforeAll(() => {
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: jest.fn().mockImplementation((query) => ({
-        matches: query === '(prefers-color-scheme: dark)', // default: dark mode
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-      })),
-    });
+  beforeEach(() => {
+    jest.spyOn(Storage.prototype, 'getItem').mockImplementation((key) => null);
+    jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {});
   });
 
-  beforeEach(() => {
-    Storage.prototype.getItem = jest.fn();
-    Storage.prototype.setItem = jest.fn();
+  afterEach(() => {
+    jest.restoreAllMocks();
+    document.documentElement.classList.remove('dark');
   });
 
   it('renders the button with initial theme', () => {

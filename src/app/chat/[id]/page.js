@@ -31,8 +31,8 @@ const ChatRoom = ({ params }) => {
     <div className="p-0 max-w-lg mx-auto">
       <ChatHeader title="聊天室" />
       <div className="flex-1 overflow-y-auto px-2 mt-6">
-        {messages.map((msg) => (
-          <MessageItem key={msg.id} msg={msg} />
+        {messages.map((msg, index) => (
+          <MessageItem key={index} msg={msg} />
         ))}
         <div ref={messagesEndRef} />
       </div>

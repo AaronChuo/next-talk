@@ -3,6 +3,11 @@ import userEvent from '@testing-library/user-event';
 import MessageItem from '@/components/MessageItem';
 import { CURRENT_USER_ID, MESSAGE_TYPE_TEXT, MESSAGE_TYPE_IMAGE, MESSAGE_TYPE_SYSTEM } from '@/constants';
 
+jest.mock('@/components/LazyImage', () => ({
+  __esModule: true,
+  default: (props) => <img {...props} />,
+}));
+
 describe('MessageItem Component', () => {
   let mockMessage;
 

@@ -5,6 +5,10 @@ import { CURRENT_USER_ID } from '@/constants';
 const MessageInput = memo(({ conversationId, mutate }) => {
   const [text, setText] = useState('');
 
+  const handleChange = useCallback((e) => {
+    setText(e.target.value);
+  }, []);
+
   const handleSend = useCallback(async () => {
     if (text.trim() !== '') {
       const newMessage = {
@@ -33,7 +37,7 @@ const MessageInput = memo(({ conversationId, mutate }) => {
         type="text"
         value={text}
         placeholder="Say something..."
-        onChange={(e) => setText(e.target.value)}
+        onChange={handleChange}
         className={`
           flex-1 p-2 text-gray-600 bg-gray-100 outline-none box-border
           rounded-tl-lg rounded-bl-lg 
