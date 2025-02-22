@@ -54,15 +54,36 @@ GET /conversations
 ```
 取得指定聊天室的所有訊息
 ```
-GET /messages?conversationId=1
+GET /messages?conversationId={ID}
 ```
 發送訊息
 ```
 POST /conversations/:id/messages/create
+
+payload:
+{
+  conversationId: number;
+  userId: number;
+  user: string;
+  avatar: string;
+  messageType: 'text'|'image'|'system';
+  message: string;
+  reactions: {
+    like: number;
+    love: number;
+    laugh: number;
+  }
+  timestamp: timestamp;
+}
 ```
 對指定的訊息發送反應（Emoji）
 ```
 PATCH /messages/:id/reactions
+
+payload:
+{
+  reaction: 'like'|'love'|'laugh'
+}
 ```
 ---
 
