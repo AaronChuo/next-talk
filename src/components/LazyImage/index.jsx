@@ -1,10 +1,14 @@
-import { memo, useState } from 'react';
+import { memo, useState, useCallback } from 'react';
 import { useInView } from 'react-intersection-observer';
 import Image from 'next/image';
 
 const LazyImage = memo(({ src, alt, width, height, className, ...otherProps }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const { ref, inView } = useInView({ triggerOnce: true });
+  
+  const handleLoad = useCallback(() => {
+    setIsLoaded(true);
+  }, []);
 
   return (
     <div ref={ref} className="relative">
@@ -19,7 +23,7 @@ const LazyImage = memo(({ src, alt, width, height, className, ...otherProps }) =
             width={width}
             height={height}
             className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-            onLoad={() => setIsLoaded(true)}
+            onLoad={handleLoad}
             {...otherProps}
           />
         </>
